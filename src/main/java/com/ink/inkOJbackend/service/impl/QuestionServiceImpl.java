@@ -41,7 +41,7 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
 
 
     /**
-     *
+     * 检验参数是否合法
      * @param question
      * @param add
      */
@@ -90,21 +90,21 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         if (questionQueryRequest == null) {
             return queryWrapper;
         }
+
         Long id = questionQueryRequest.getId();
         String title = questionQueryRequest.getTitle();
         String content = questionQueryRequest.getContent();
         List<String> tags = questionQueryRequest.getTags();
         String answer = questionQueryRequest.getAnswer();
         Long userId = questionQueryRequest.getUserId();
-        Integer isDelete = questionQueryRequest.getIsDelete();
         String sortField = questionQueryRequest.getSortField();
         String sortOrder = questionQueryRequest.getSortOrder();
 
 
         // 拼接查询条件
-        queryWrapper.eq(StringUtils.isNotBlank(title),"title",title);
-        queryWrapper.eq(StringUtils.isNotBlank(content),"content",content);
-        queryWrapper.eq(StringUtils.isNotBlank(answer),"answer",answer);
+        queryWrapper.like(StringUtils.isNotBlank(title),"title",title);
+        queryWrapper.like(StringUtils.isNotBlank(content),"content",content);
+        queryWrapper.like(StringUtils.isNotBlank(answer),"answer",answer);
         if (CollectionUtils.isNotEmpty(tags)) {
             for (String tag :
                     tags) {
@@ -146,7 +146,6 @@ public class QuestionServiceImpl extends ServiceImpl<QuestionMapper, Question> i
         Set<Long> userIdSet = questionList.stream().map(Question::getUserId).collect(Collectors.toSet());
         Map<Long, List<User>> userIdUserListMap = userService.listByIds(userIdSet).stream()
                 .collect(Collectors.groupingBy(User::getId));
-        // 2. 已登录，获取用户点赞、收藏状态
         // 填充信息
         List<QuestionVO> questionVOList = questionList.stream().map(question -> {
             QuestionVO questionVO = QuestionVO.objToVo(question);

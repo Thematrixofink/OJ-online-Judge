@@ -1,4 +1,4 @@
-package com.ink.inkOJbackend.model.dto.questionSubmit;
+package com.ink.inkOJbackend.judge.model;
 
 import lombok.Data;
 

@@ -1,6 +1,7 @@
 package com.ink.inkOJbackend.model.vo;
 
 import cn.hutool.json.JSONUtil;
+import com.ink.inkOJbackend.model.dto.question.JudgeCase;
 import com.ink.inkOJbackend.model.dto.question.JudgeConfig;
 import com.ink.inkOJbackend.model.entity.Question;
 import lombok.Data;
@@ -51,6 +52,7 @@ public class QuestionVO {
      * 判题配置（json 对象）
      */
     private JudgeConfig judgeConfig;
+
 
     /**
      * 点赞数

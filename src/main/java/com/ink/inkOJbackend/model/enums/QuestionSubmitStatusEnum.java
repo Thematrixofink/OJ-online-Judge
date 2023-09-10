@@ -6,17 +6,23 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public enum QuestionSubmitLanguageEnum {
+/**
+ * 题目提交枚举
+ *
+ */
+public enum QuestionSubmitStatusEnum {
 
-    JAVA("java","java"),
-    CPLUSPLUS("c++","cpp"),
-    GOLANG("golang","golang");
+    // 0 - 待判题、1 - 判题中、2 - 成功、3 - 失败
+    WAITING("等待中", 0),
+    RUNNING("判题中", 1),
+    SUCCEED("成功", 2),
+    FAILED("失败", 3);
 
     private final String text;
 
-    private final String value;
+    private final Integer value;
 
-    QuestionSubmitLanguageEnum(String text, String value) {
+    QuestionSubmitStatusEnum(String text, Integer value) {
         this.text = text;
         this.value = value;
     }
@@ -26,7 +32,7 @@ public enum QuestionSubmitLanguageEnum {
      *
      * @return
      */
-    public static List<String> getValues() {
+    public static List<Integer> getValues() {
         return Arrays.stream(values()).map(item -> item.value).collect(Collectors.toList());
     }
 
@@ -36,11 +42,11 @@ public enum QuestionSubmitLanguageEnum {
      * @param value
      * @return
      */
-    public static QuestionSubmitLanguageEnum getEnumByValue(String value) {
+    public static QuestionSubmitStatusEnum getEnumByValue(Integer value) {
         if (ObjectUtils.isEmpty(value)) {
             return null;
         }
-        for (QuestionSubmitLanguageEnum anEnum : QuestionSubmitLanguageEnum.values()) {
+        for (QuestionSubmitStatusEnum anEnum : QuestionSubmitStatusEnum.values()) {
             if (anEnum.value.equals(value)) {
                 return anEnum;
             }
@@ -48,7 +54,7 @@ public enum QuestionSubmitLanguageEnum {
         return null;
     }
 
-    public String getValue() {
+    public Integer getValue() {
         return value;
     }
 
