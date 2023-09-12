@@ -71,6 +71,8 @@ public class JudgeServiceImpl implements JudgeService {
         String judgeCase = question.getJudgeCase();
         List<JudgeCase> judgeCases = JSONUtil.toList(judgeCase, JudgeCase.class);
         List<String> inputList = judgeCases.stream().map(JudgeCase::getInput).collect(Collectors.toList());
+        List<String> outputList= judgeCases.stream().map(JudgeCase::getOutput).collect(Collectors.toList());
+
         //1.1更改题目的状态
         //把状态更改为判题中
         QuestionSubmit questionSubmitUpdate = new QuestionSubmit();
