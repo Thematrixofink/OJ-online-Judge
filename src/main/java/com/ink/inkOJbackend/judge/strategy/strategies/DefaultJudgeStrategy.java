@@ -30,6 +30,17 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
         //得到正确输出用例
         List<JudgeCase> judgeCase = judgeContext.getJudgeCases();
         List<String> formalOutputList= judgeCase.stream().map(JudgeCase::getOutput).collect(Collectors.toList());
+        //得到返回的信息
+        String message = judgeContext.getMessage();
+
+        //判断是否有敏感词
+        if(message.contains("包含敏感词")){
+            JudgeInfo info = new JudgeInfo();
+            info.setMessage(JudgeInfoEnum.DANGEROUS_OPERATION.getValue());
+            info.setTime(null);
+            info.setMemory(null);
+            return info;
+        }
 
         //判断题目执行状态
         //获取用户代码运行的具体信息，时间内存等

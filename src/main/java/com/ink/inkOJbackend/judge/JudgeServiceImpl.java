@@ -100,6 +100,7 @@ public class JudgeServiceImpl implements JudgeService {
         judgeContext.setQuestion(question);
         judgeContext.setJudgeCases(judgeCases);
         judgeContext.setQuestionSubmit(submit);
+        judgeContext.setMessage(response.getMessage());
         strategyManager = new JudgeStrategyManager();
         JudgeInfo judgeInfo = strategyManager.doJudge(judgeContext);
         //修改数据库中判题结果
