@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/question/")
 @Slf4j
+@Deprecated
 public class QuestionSubmitController {
 
 

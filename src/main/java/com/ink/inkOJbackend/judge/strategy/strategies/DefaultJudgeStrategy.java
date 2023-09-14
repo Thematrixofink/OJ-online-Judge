@@ -34,7 +34,7 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
         String message = judgeContext.getMessage();
 
         //判断是否有敏感词
-        if(message.contains("包含敏感词")){
+        if(message!=null &&message.contains("包含敏感词")){
             JudgeInfo info = new JudgeInfo();
             info.setMessage(JudgeInfoEnum.DANGEROUS_OPERATION.getValue());
             info.setTime(null);
@@ -75,7 +75,7 @@ public class DefaultJudgeStrategy implements JudgeStrategy {
             judgeInfoResponse.setMessage(judgeInfoEnum.getValue());
             return judgeInfoResponse;
         }
-        if(memory > memoryLimit){
+        if(memory != null && memory > memoryLimit){
             judgeInfoEnum = JudgeInfoEnum.MEMORY_LIMIT_EXCEEDED;
             judgeInfoResponse.setMessage(judgeInfoEnum.getValue());
             return judgeInfoResponse;

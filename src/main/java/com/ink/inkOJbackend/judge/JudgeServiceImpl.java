@@ -92,21 +92,30 @@ public class JudgeServiceImpl implements JudgeService {
                 .build();
         ExecuteCodeResponse response = codeSandbox.executeCode(executeCodeResponse);
 
-        //获取判题上下文的信息，并传递给判题策略管理员，进行判题操作
-        JudgeContext judgeContext = new JudgeContext();
-        judgeContext.setJudgeInfo(response.getJudgeInfo());
-        judgeContext.setInputList(inputList);
-        judgeContext.setOutputList(response.getOutputList());
-        judgeContext.setQuestion(question);
-        judgeContext.setJudgeCases(judgeCases);
-        judgeContext.setQuestionSubmit(submit);
-        judgeContext.setMessage(response.getMessage());
-        strategyManager = new JudgeStrategyManager();
-        JudgeInfo judgeInfo = strategyManager.doJudge(judgeContext);
-        //修改数据库中判题结果
+        //状态已经错误了，直接不用判题了，直接返回就行了
+        JudgeInfo judgeInfo = new JudgeInfo();
         questionSubmitUpdate = new QuestionSubmit();
+        if(response.getStatus() == 3){
+            judgeInfo.setMessage(response.getMessage());
+            judgeInfo.setTime(null);
+            judgeInfo.setMemory(null);
+            questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.FAILED.getValue());
+        }else{
+            //获取判题上下文的信息，并传递给判题策略管理员，进行判题操作
+            JudgeContext judgeContext = new JudgeContext();
+            judgeContext.setJudgeInfo(response.getJudgeInfo());
+            judgeContext.setInputList(inputList);
+            judgeContext.setOutputList(response.getOutputList());
+            judgeContext.setQuestion(question);
+            judgeContext.setJudgeCases(judgeCases);
+            judgeContext.setQuestionSubmit(submit);
+            judgeContext.setMessage(response.getMessage());
+            strategyManager = new JudgeStrategyManager();
+            judgeInfo = strategyManager.doJudge(judgeContext);
+            questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.SUCCEED.getValue());
+        }
+        //修改数据库中判题结果
         questionSubmitUpdate.setId(questionSubmitId);
-        questionSubmitUpdate.setStatus(QuestionSubmitStatusEnum.SUCCEED.getValue());
         questionSubmitUpdate.setJudgeInfo(JSONUtil.toJsonStr(judgeInfo));
         boolean update1 = questionSubmitService.updateById(questionSubmitUpdate);
         if(!update1){
