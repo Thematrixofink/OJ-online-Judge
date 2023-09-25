@@ -7,7 +7,7 @@ create database if not exists inkoj;
 use inkoj;
 
 -- 用户表
-create table if not exists user
+create table if not exists use
 (
     id           bigint auto_increment comment 'id' primary key,
     userAccount  varchar(256)                           not null comment '账号',
