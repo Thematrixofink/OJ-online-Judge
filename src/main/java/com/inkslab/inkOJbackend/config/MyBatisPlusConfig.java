@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
  *
  */
 @Configuration
-@MapperScan("com.ink.inksOJbackend.mapper")
+@MapperScan("com.inkslab.inkOJbackend.mapper")
 public class MyBatisPlusConfig {
 
     /**
